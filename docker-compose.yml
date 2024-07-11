@@ -9,8 +9,6 @@ services:
     volumes:
       - ./:/usr/src/app
       - ./.env:/usr/src/app/.env
-    environment:
-      - DATABASE_URL= 'postgresql://myuser:mypassword@db:5432/postgres'
     ports:
       - "8002:8002"
     expose:
