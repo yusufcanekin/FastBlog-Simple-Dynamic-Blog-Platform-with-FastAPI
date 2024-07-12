@@ -36,7 +36,6 @@ class Post(PostBase):
     owner : UserResponse
     
 class PostCreate(PostBase):
-    
     pass
 
 class UserBase(BaseModel):

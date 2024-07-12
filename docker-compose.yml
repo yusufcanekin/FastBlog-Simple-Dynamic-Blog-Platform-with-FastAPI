@@ -45,15 +45,15 @@ services:
       retries: 10
     networks:
       - mynetwork
-    
+
   test_db:
     image: postgres:alpine
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data2/
     ports:
-      - "5433:5432"
+      - "5431:5432"
     expose:
-      - 5433
+      - 5431
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=mypassword
@@ -61,7 +61,6 @@ services:
     restart: always
     networks:
       - mynetwork
-
 
 volumes:
   postgres_data:
