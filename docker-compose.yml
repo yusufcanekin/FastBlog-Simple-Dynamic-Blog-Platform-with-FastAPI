@@ -45,16 +45,23 @@ services:
       retries: 10
     networks:
       - mynetwork
-
-  test:
-    build: .
-    depends_on:
-      - db
+    
+  test_db:
+    image: postgres:alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5433:5432"
+    expose:
+      - 5433
     environment:
-      DATABASE_URL: "postgresql://postgres:mypassword@db:5432/mydatabase"
-    command: ["pytest"]
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+    restart: always
     networks:
       - mynetwork
+
 
 volumes:
   postgres_data:
