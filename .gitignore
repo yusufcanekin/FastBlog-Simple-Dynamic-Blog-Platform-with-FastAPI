@@ -1,9 +1,3 @@
 venv/
-**/__pychache__/
-*.pyc
-
-*.venv
-*.venv.*
-venv.*
 .env
 __pychache__

@@ -8,11 +8,22 @@ services:
         condition: service_healthy
     volumes:
       - ./:/usr/src/app
-      - ./.env:/usr/src/app/.env
+    #      - ./.env:/usr/src/app/.env
+    environment:
+      - DATABASE_HOSTNAME=db
+      - DATABASE_PORT=5432
+      - DATABASE_PASSWORD=mypassword
+      - DATABASE_NAME=mydatabase
+      - DATABASE_USERNAME=postgres
+      - SECRET_KEY=a352f58a2eab0b4a1a931cd6526d3a6dcf9cc160b8f153f8ea3313e552c94ce9
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
     ports:
       - "8002:8002"
     expose:
       - 8002
+    networks:
+      - mynetwork
 
   db:
     image: postgres:alpine
@@ -32,6 +43,22 @@ services:
       interval: 1s
       timeout: 1s
       retries: 10
+    networks:
+      - mynetwork
+
+  test:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://postgres:mypassword@db:5432/mydatabase"
+    command: ["pytest"]
+    networks:
+      - mynetwork
 
 volumes:
   postgres_data:
+
+networks:
+  mynetwork:
+    driver: bridge
